@@ -7,10 +7,10 @@ import (
 )
 
 func TestLoginAuth(t *testing.T) {
-	auth := LoginAuth("", "wuplo@delta.local", "P@ssw0rd", "10.77.0.24")
+	auth := LoginAuth("", "username", "P@ssw0rd", "smpp.server.com")
 
 	// Connect to the remote SMTP server.
-	c, err := smtp.Dial("10.77.0.24:25")
+	c, err := smtp.Dial("smpp.server.com:25")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -20,10 +20,10 @@ func TestLoginAuth(t *testing.T) {
 	}
 
 	// Set the sender and recipient first
-	if err := c.Mail("wuplo@delta.ru"); err != nil {
+	if err := c.Mail("to@mail.com"); err != nil {
 		log.Fatal(err)
 	}
-	if err := c.Rcpt("shadrus@gmail.com"); err != nil {
+	if err := c.Rcpt("from@mail.com"); err != nil {
 		log.Fatal(err)
 	}
 
