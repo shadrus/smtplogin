@@ -10,6 +10,11 @@ type loginAuth struct {
 	host                         string
 }
 
+// LoginAuth returns an Auth that implements the LOGIN authentication
+// mechanism.
+// The returned Auth uses the given username and password to authenticate
+// on TLS connections to host and act as identity. Usually identity will be
+// left blank to act as username.
 func LoginAuth(identity, username, password, host string) smtp.Auth {
 	return &loginAuth{identity, username, password, host}
 }
@@ -43,7 +48,7 @@ func (a *loginAuth) Next(fromServer []byte, more bool) ([]byte, error) {
 			resp := []byte(a.password + "\x00")
 			return resp, nil
 		default:
-			return nil, nil
+			return nil, errors.New(string(fromServer[:]))
 	}
 
 }
